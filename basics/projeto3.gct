@@ -1,0 +1,1015 @@
+// Bentley GenerativeComponents Transaction File -- File structure version 1.21. (Please do not delete or change this line.)
+
+environment
+{
+    GCVersion                 = '08.11.09.153';
+    MSVersion                 = '08.11.09.357';
+    MSProject                 = 'GC_Default';
+    MSDesignFile              = 'E:projeto3.dgn';
+}
+
+transaction modelChange 'Add coordinateSystem01'
+{
+    node User.Objects.coordinateSystem01 Bentley.GC.Features.CoordinateSystem
+    {
+        Technique                 = 'ByUniversalTransform';
+        CoordinateSystem          = baseCS;
+        XTranslation              = 2;
+        YTranslation              = 0;
+        ZTranslation              = 0;
+        XRotation                 = 0;
+        YRotation                 = 0;
+        ZRotation                 = 0;
+        XScale                    = 1.0;
+        YScale                    = 1.0;
+        ZScale                    = 1.0;
+        Origin                    = null;
+        GraphLocation             = {311.5, 13.795};
+    }
+}
+
+transaction modelChange 'Add circle01, circle02, circle03, functionCall01, point01, point02, point03, point04, slider01, slider02, slider03'
+{
+    node User.Objects.point01 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        CoordinateSystem          = coordinateSystem01;
+        XTranslation              = Series(0,20,1);
+        YTranslation              = 0.0;
+        ZTranslation              = Series(0,10,1);
+        Origin                    = null;
+        Replication               = ReplicationOption.AllCombinations;
+        Visible                   = true;
+        GraphLocation             = {584.5, 2.795};
+    }
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        CoordinateSystem          = baseCS;
+        XTranslation              = <free> 4.03438924971165;
+        YTranslation              = 0.0;
+        ZTranslation              = <free> 7.02272458181589;
+        Origin                    = null;
+        GraphLocation             = {587.767318518519, 345.564983950617};
+    }
+    node User.Objects.slider01 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 3.21;
+        Minimum                   = 0.0;
+        Maximum                   = 10.0;
+        Resolution                = 0.01;
+        SnapToTicks               = false;
+        TickInterval              = 1.0;
+        TicksVisible              = true;
+        GraphLocation             = {823.388118518519, 369.940983950617};
+    }
+    node User.Objects.circle01 Bentley.GC.Features.Circle
+    {
+        Technique                 = 'ByCenterRadius';
+        CenterPoint               = point02;
+        Radius                    = slider01;
+        Support                   = coordinateSystem01.XZPlane;
+        GraphLocation             = {1068.00347470213, 355.461286713809};
+    }
+    node User.Objects.point03 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        CoordinateSystem          = baseCS;
+        XTranslation              = <free> 10.6553543535079;
+        YTranslation              = 0.0;
+        ZTranslation              = <free> 2.33485222360591;
+        Origin                    = null;
+        GraphLocation             = {588.625903934368, 513.829204717843};
+    }
+    node User.Objects.slider02 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 4.64;
+        Minimum                   = 0.0;
+        Maximum                   = 10.0;
+        Resolution                = 0.01;
+        SnapToTicks               = false;
+        TickInterval              = 1.0;
+        TicksVisible              = true;
+        GraphLocation             = {824.246703934367, 538.205204717842};
+    }
+    node User.Objects.circle02 Bentley.GC.Features.Circle
+    {
+        Technique                 = 'ByCenterRadius';
+        CenterPoint               = point03;
+        Radius                    = slider02;
+        Support                   = coordinateSystem01.XZPlane;
+        GraphLocation             = {1068.86206011798, 523.725507481034};
+    }
+    node User.Objects.point04 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        CoordinateSystem          = baseCS;
+        XTranslation              = <free> 18.7865172496037;
+        YTranslation              = 0.0;
+        ZTranslation              = <free> 7.54141020421909;
+        Origin                    = null;
+        GraphLocation             = {585.53697142298, 706.426490350672};
+    }
+    node User.Objects.slider03 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 2.05;
+        Minimum                   = 0.0;
+        Maximum                   = 10.0;
+        Resolution                = 0.01;
+        SnapToTicks               = false;
+        TickInterval              = 1.0;
+        TicksVisible              = true;
+        GraphLocation             = {825.522260081686, 714.21743344759};
+    }
+    node User.Objects.circle03 Bentley.GC.Features.Circle
+    {
+        Technique                 = 'ByCenterRadius';
+        CenterPoint               = point04;
+        Radius                    = slider03;
+        Support                   = coordinateSystem01.XZPlane;
+        GraphLocation             = {1070.1376162653, 699.737736210783};
+    }
+    node User.Objects.functionCall01 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        IsValueDisplayed          = true;
+        GraphLocation             = {1356.84339461813, 365.781884302207};
+    }
+}
+
+transaction modelChange 'Function changes; change functionCall01'
+{
+    script
+    {
+        global redeclare Point[] SelectPointsInSphere(Point[] pntArray, Circle cir)
+        {
+            Point pntList = {};
+            for (int i = 0; i < pntArray.Count; ++i)
+            {
+                if(Distance(pntArray[i], cir.CenterPoint) < cir.Radius)
+                    pntList = Add(pntList, pntArray[i]);
+            }
+            return pntList;
+        }
+    }
+    node User.Objects.functionCall01 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = SelectPointsInSphere;
+        IsValueDisplayed          = true;
+        pntArray                  = Flatten(point01);
+        cir                       = circle01;
+        GraphLocation             = {1319.90477228306, 351.869854373278};
+    }
+    node User.Objects.functionCall02 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = SelectPointsInSphere;
+        IsValueDisplayed          = true;
+        pntArray                  = Flatten(point01);
+        cir                       = circle02;
+        GraphLocation             = {1319.90477228306, 351.869854373278};
+    }
+    node User.Objects.functionCall03 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = SelectPointsInSphere;
+        IsValueDisplayed          = true;
+        pntArray                  = Flatten(point01);
+        cir                       = circle03;
+        GraphLocation             = {1319.90477228306, 351.869854373278};
+    }
+}
+
+transaction modelChange 'Change functionCall01, functionCall02, functionCall03'
+{
+    node User.Objects.functionCall01 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1388.46827994065, 393.892649389218};
+    }
+    node User.Objects.functionCall02 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1432.70280101006, 442.550622565569};
+    }
+    node User.Objects.functionCall03 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1353.08066308512, 351.869854373278};
+    }
+}
+
+transaction modelChange 'Add functionCall04; change functionCall01, functionCall02, functionCall03'
+{
+    node User.Objects.functionCall01 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1388.46827994065, 393.892649389218};
+    }
+    node User.Objects.functionCall02 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1433.98273506878, 442.550622565569};
+    }
+    node User.Objects.functionCall03 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1353.08066308512, 351.869854373278};
+    }
+    node User.Objects.functionCall04 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = Difference;
+        IsValueDisplayed          = true;
+        listA                     = Flatten(point01);
+        listB                     = Flatten({functionCall01, functionCall02, functionCall03});
+        GraphLocation             = {1694.98688832324, 420.576714645441};
+    }
+}
+
+transaction modelChange 'Change point01'
+{
+    node User.Objects.point01 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        Visible                   = false;
+    }
+}
+
+transaction modelChange 'Add point05'
+{
+    node User.Objects.point05 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        CoordinateSystem          = coordinateSystem01;
+        XTranslation              = 0;
+        YTranslation              = 0;
+        ZTranslation              = 0;
+        Origin                    = functionCall04;
+        GraphLocation             = <auto> {300.0, 234.945};
+    }
+}
+
+transaction modelChange 'Add plane01; change functionCall01, functionCall02, functionCall03, functionCall04'
+{
+    node User.Objects.functionCall01 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1423.85589679618, 232.43664748587};
+    }
+    node User.Objects.functionCall02 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1414.07720058755, 429.280266244746};
+    }
+    node User.Objects.functionCall03 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1404.14491229187, 661.00976770813};
+    }
+    node User.Objects.functionCall04 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1695.87573141957, 421.465557741775};
+    }
+    node User.Objects.plane01 Bentley.GC.Features.Plane
+    {
+        Technique                 = 'ByCoordinateList';
+        CoordinateSystem          = {baseCS, coordinateSystem01.XZPlane, coordinateSystem01};
+        XYZTranslation            = coordinateSystem01.XZPlane;
+        Origin                    = functionCall04.Value;
+        GraphLocation             = {1959.1175789949, 487.719770520333};
+    }
+}
+
+transaction modelChange 'Add polygon01; change coordinateSystem01, plane01'
+{
+    node User.Objects.coordinateSystem01 Bentley.GC.Features.CoordinateSystem
+    {
+        GraphLocation             = {313.320546616519, 13.795};
+    }
+    node User.Objects.plane01 Bentley.GC.Features.Plane
+    {
+        Technique                 = 'ParallelToPlaneThroughPoint';
+        Origin                    = functionCall04.Value;
+        Plane                     = coordinateSystem01.XZPlane;
+        GraphLocation             = {1959.1175789949, 487.101537378712};
+    }
+    node User.Objects.polygon01 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'BySupportMinMax';
+        Fill                      = false;
+        GraphLocation             = {2237.53910463597, 465.002876885253};
+    }
+}
+
+transaction modelChange 'Add slider04, slider05; change plane01, point05, polygon01'
+{
+    node User.Objects.point05 Bentley.GC.Features.Point
+    {
+        GraphLocation             = {1969.34279218714, 144.342948863656};
+    }
+    node User.Objects.plane01 Bentley.GC.Features.Plane
+    {
+        Technique                 = 'ParallelToPlaneThroughPoint';
+        Visible                   = false;
+    }
+    node User.Objects.slider04 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = -0.5;
+        Minimum                   = -0.5;
+        Maximum                   = 0.5;
+        Resolution                = 0.01;
+        SnapToTicks               = false;
+        TickInterval              = 1.0;
+        TicksVisible              = true;
+        GraphLocation             = {2227.37214794591, 540.894276180711};
+    }
+    node User.Objects.slider05 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 0.5;
+        Minimum                   = 0;
+        Maximum                   = 0.5;
+        Resolution                = 0.01;
+        SnapToTicks               = false;
+        TickInterval              = 1.0;
+        TicksVisible              = true;
+        GraphLocation             = {2228.80644883447, 656.949001525836};
+    }
+    node User.Objects.polygon01 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'BySupportMinMax';
+        Support                   = plane01;
+        MinX                      = slider04;
+        MaxX                      = slider05;
+        MinY                      = slider04;
+        MaxY                      = slider05;
+        GraphLocation             = {2509.06710043598, 441.856228062956};
+    }
+}
+
+transaction modelChange 'Change functionCall02, point02, point05, slider01, slider02, slider03'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        GraphLocation             = {592.297421075336, 343.299932672208};
+    }
+    node User.Objects.slider01 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 2.19;
+    }
+    node User.Objects.slider02 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 3.82;
+    }
+    node User.Objects.slider03 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 1.54;
+    }
+    node User.Objects.functionCall02 Bentley.GC.FunctionCall
+    {
+        GraphLocation             = {1356.72998216719, 426.549446319967};
+    }
+    node User.Objects.point05 Bentley.GC.Features.Point
+    {
+        GraphLocation             = {1969.34279218714, 144.342948863656};
+    }
+}
+
+transaction modelChange 'Change point05, slider01, slider02'
+{
+    node User.Objects.slider01 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 4.43;
+    }
+    node User.Objects.slider02 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 3.15;
+    }
+    node User.Objects.point05 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        Visible                   = false;
+    }
+}
+
+transaction modelChange 'Function changes'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        {
+        ///This function collects points near circle
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = {};
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(sup,min,max,0,max);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(sup,min,max,min,0);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+}
+
+transaction modelChange 'Function changes'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        {
+        ///This function collects points near circle
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = new Polygon();
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(sup,min,max,0,max);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(sup,min,max,min,0);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+}
+
+transaction modelChange 'Function changes'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        {
+        ///This function collects points near circle
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = new Polygon();
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(sup,min,max,0,max);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(sup,min,max,min,0.0,false);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+}
+
+transaction modelChange 'Function changes'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        {
+        ///This function collects points near circle
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = new Polygon();
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(sup,min,max,0.0,max,false);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(sup,min,max,min,0.0,false);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+}
+
+transaction modelChange 'Function changes'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        {
+        ///This function collects points near circle
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = new Polygon();
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    Plane supportPlane = new Plane().ParallelToPlaneThroughPoint(pntInCircle[i], coordinateSystem01.XYPlane);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(supportPlane,min,max,0.0,max,false);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(supportPlane,min,max,min,0.0,false);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+}
+
+transaction modelChange 'Add expression01'
+{
+    node User.Objects.expression01 Bentley.GC.Expression
+    {
+        Technique                 = 'Default';
+        Value                     = RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03}));
+        IsValueDisplayed          = true;
+        GraphLocation             = {2724.21344110774, 571.255744967619};
+    }
+}
+
+transaction modelChange 'Change point02'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 5.00438865855109;
+        ZTranslation              = <free> 6.59865599260877;
+    }
+}
+
+transaction modelChange 'Change point02'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 5.20449899221688;
+        ZTranslation              = <free> 6.52169600007714;
+    }
+}
+
+transaction modelChange 'Add functionCall06'
+{
+    node User.Objects.functionCall06 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = polysNearCircle;
+        IsValueDisplayed          = true;
+        GraphLocation             = {3003.68534452385, 443.630904029589};
+    }
+}
+
+transaction modelChange 'Change point02, point03'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 6.55255733157021;
+        ZTranslation              = <free> 7.85676479765956;
+    }
+    node User.Objects.point03 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 14.4283528910776;
+        ZTranslation              = <free> 3.90439608175405;
+    }
+}
+
+transaction modelChange 'Change functionCall06', suppressed
+{
+    node User.Objects.functionCall06 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        sup                       = coordinateSystem01.XZPlane;
+        pntInCircle               = expression01;
+        cir                       = circle01;
+        min                       = slider04;
+        max                       = slider05;
+        sDist                     = 0.1;
+        GraphLocation             = {3004.96527858257, 443.630904029589};
+    }
+}
+
+transaction modelChange 'Add slider06'
+{
+    node User.Objects.slider06 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 2.43;
+        Minimum                   = 0.0;
+        Maximum                   = 10.0;
+        Resolution                = 0.01;
+        SnapToTicks               = false;
+        TickInterval              = 1.0;
+        TicksVisible              = true;
+        GraphLocation             = {2754.91736087077, 390.84642344792};
+    }
+}
+
+transaction modelChange 'Change slider06'
+{
+    node User.Objects.slider06 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 0.24;
+    }
+}
+
+transaction modelChange 'Change slider06'
+{
+    node User.Objects.slider06 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 0.324;
+        Maximum                   = 0.5;
+        Resolution                = 0.001;
+        GraphLocation             = {2755.85624975966, 390.84642344792};
+    }
+}
+
+transaction modelChange 'Change slider06'
+{
+    node User.Objects.slider06 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 0.137;
+    }
+}
+
+transaction modelChange 'HERE Add polygon03'
+{
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        Function                  = polysNearCircle();
+        FunctionArguments         = {coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1};
+        GraphLocation             = {2914.15403235157, 628.596849900895};
+    }
+}
+
+transaction modelChange 'change circle01, polygon03'
+{
+    node User.Objects.circle01 Bentley.GC.Features.Circle
+    {
+        GraphLocation             = {1072.4476901838, 353.239178972973};
+    }
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        FunctionArguments         = {coordinateSystem01.XZPlane, expression01, circle01, slider04, slider05, 0.1};
+        GraphLocation             = {2957.88511269122, 627.530238185294};
+    }
+}
+
+transaction modelChange 'Change polygon03'
+{
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        Function                  = polyNearCircle;
+    }
+}
+
+transaction modelChange 'Function changes; change polygon03'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup)
+        {
+        ///This function collects points near circle
+        //, Point[] pntInCircle, Circle cir, double min, double max, double sDist
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = {};
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(sup,min,max,0,max);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(sup,min,max,min,0);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        FunctionArguments         = {coordinateSystem01.XZPlane, expression01.Value, circle01, slider04.Value, slider05.Value, 0.1};
+    }
+}
+
+transaction modelChange 'Change polygon03'
+{
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        FunctionArguments         = {coordinateSystem01.XZPlane};
+    }
+}
+
+transaction modelChange 'Function changes; change point02, polygon03'
+{
+    script
+    {
+        global redeclare Polygon[] polysNearCircle(Plane sup, Point[] pntInCircle)
+        {
+        ///This function collects points near circle
+        //, Circle cir, double min, double max, double sDist
+        //, circle01, slider04.Value, slider05.Value, 0.1
+        //function(Plane sup, Point[] pntInCircle, Circle cir, double min, double max, double sDist)
+        //{coordinateSystem01.XZPlane, RemoveDuplicates(Flatten({functionCall01,functionCall02,functionCall03})), circle01, slider04, slider05, 0.1}
+        breakpoint;
+            Polygon polyList = {};
+            for (int i = 0; i < pntInCircle.Count; ++i)
+            {
+                if(Distance(pntInCircle[i],cir.CenterPoint) > (cir.Radius - sDist))
+                {
+                    Polygon poly = new Polygon(polyList);
+                    if(pntInCircle[i].Z > cir.CenterPoint.Z)
+                    {
+                        poly.BySupportMinMax(sup,min,max,0,max);
+                    }
+                    else
+                    {
+                        poly.BySupportMinMax(sup,min,max,min,0);
+                    }
+        
+                }
+        
+            }
+            return polyList;
+        }
+    }
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 5.57583445233583;
+        ZTranslation              = <free> 5.62891076397138;
+    }
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        FunctionArguments         = {coordinateSystem01.XZPlane, expression01.Value};
+        GraphLocation             = {2957.88511269122, 626.696904851961};
+    }
+}
+
+transaction modelChange 'Change point02, point03, point04'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 6.26340409735972;
+        ZTranslation              = <free> 6.14506498598443;
+    }
+    node User.Objects.point03 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 11.8890265403589;
+        ZTranslation              = <free> 2.71751015414573;
+    }
+    node User.Objects.point04 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 18.6051704028347;
+        ZTranslation              = <free> 5.87142086704253;
+    }
+}
+
+transaction modelChange 'Change polygon03'
+{
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        Function                  = polyNearCircle();
+    }
+}
+
+transaction modelChange 'Change point02, polygon03'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 5.08120613805455;
+        ZTranslation              = <free> 5.59465646445525;
+    }
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        Technique                 = 'ByFunction';
+        Function                  = polysNearCircle();
+    }
+}
+
+transaction modelChange 'Change point02'
+{
+    node User.Objects.point02 Bentley.GC.Features.Point
+    {
+        Technique                 = 'ByCartesianCoordinates';
+        XTranslation              = <free> 5.75502085764503;
+        ZTranslation              = <free> 5.75897028808433;
+    }
+}
+
+transaction modelChange 'Change polygon03'
+{
+    node User.Objects.polygon03 Bentley.GC.Features.Polygon
+    {
+        GraphLocation             = {2957.88511269122, 626.295027279945};
+    }
+}
+
+transaction modelChange 'Change plane01, slider06'
+{
+    node User.Objects.slider06 Bentley.GC.Slider
+    {
+        GraphLocation             = {835.86853775966, 922.35157544792};
+    }
+    node User.Objects.plane01 Bentley.GC.Features.Plane
+    {
+        Technique                 = 'ParallelToPlaneThroughPoint';
+        Visible                   = true;
+    }
+}
+
+transaction modelChange 'Add circle04, circle05, circle06; change coordinateSystem01, slider01, slider02, slider03, slider06'
+{
+    node User.Objects.slider06 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 0.5;
+        GraphLocation             = {835.86853775966, 922.35157544792};
+    }
+    node User.Objects.coordinateSystem01 Bentley.GC.Features.CoordinateSystem
+    {
+        GraphLocation             = {315.394146616519, 15.8686};
+    }
+    node User.Objects.slider01 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 5.36;
+    }
+    node User.Objects.slider02 Bentley.GC.Slider
+    {
+        GraphLocation             = {826.320303934367, 538.205204717842};
+    }
+    node User.Objects.slider03 Bentley.GC.Slider
+    {
+        GraphLocation             = {829.822077041686, 714.21743344759};
+    }
+    node User.Objects.circle04 Bentley.GC.Features.Circle
+    {
+        Technique                 = 'ByCenterRadius';
+        CenterPoint               = point02;
+        Radius                    = slider01-slider06;
+        Support                   = coordinateSystem01.XZPlane;
+        GraphLocation             = {1072.55031306667, 866.371408296296};
+    }
+    node User.Objects.circle05 Bentley.GC.Features.Circle
+    {
+        Technique                 = 'ByCenterRadius';
+        CenterPoint               = point03;
+        Radius                    = slider02 - slider06;
+        Support                   = coordinateSystem01.XZPlane;
+        GraphLocation             = {1078.36432906667, 1019.9889442963};
+    }
+    node User.Objects.circle06 Bentley.GC.Features.Circle
+    {
+        Technique                 = 'ByCenterRadius';
+        CenterPoint               = point04;
+        Radius                    = slider03-slider06;
+        Support                   = coordinateSystem01.XZPlane;
+        GraphLocation             = {1080.44345866667, 1185.7539106963};
+    }
+}
+
+transaction modelChange 'Change slider01'
+{
+    node User.Objects.slider01 Bentley.GC.Slider
+    {
+        Technique                 = 'Default';
+        Value                     = 4.25;
+    }
+}
+
+transaction modelChange 'Add functionCall07, functionCall08, functionCall09, functionCall10; change circle04'
+{
+    node User.Objects.circle04 Bentley.GC.Features.Circle
+    {
+        GraphLocation             = {1074.27831306667, 866.371408296296};
+    }
+    node User.Objects.functionCall08 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = SelectPointsInSphere;
+        IsValueDisplayed          = true;
+        pntArray                  = Flatten(point01);
+        cir                       = circle04;
+        GraphLocation             = {1333.14707949819, 829.237865349123};
+    }
+    node User.Objects.functionCall09 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = SelectPointsInSphere;
+        IsValueDisplayed          = true;
+        pntArray                  = Flatten(point01);
+        cir                       = circle05;
+        GraphLocation             = {1514.58707949819, 995.125865349119};
+    }
+    node User.Objects.functionCall10 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = SelectPointsInSphere;
+        IsValueDisplayed          = true;
+        pntArray                  = Flatten(point01);
+        cir                       = circle06;
+        GraphLocation             = {1378.07507949819, 1218.03786534912};
+    }
+    node User.Objects.functionCall07 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = Difference;
+        IsValueDisplayed          = true;
+        listA                     = Flatten({functionCall01, functionCall02, functionCall03});
+        listB                     = Flatten({functionCall08, functionCall09, functionCall10});
+        GraphLocation             = {1790.47127021819, 922.375629189124};
+    }
+}
+
+transaction modelChange 'Add plane02'
+{
+    node User.Objects.plane02 Bentley.GC.Features.Plane
+    {
+        Technique                 = 'ParallelToPlaneThroughPoint';
+        Origin                    = functionCall07;
+        Plane                     = coordinateSystem01.XYPlane;
+        GraphLocation             = {2004.8307526804, 958.959362199553};
+    }
+}
+
+transaction modelChange 'Add functionCall05'
+{
+    node User.Objects.functionCall05 Bentley.GC.FunctionCall
+    {
+        Technique                 = 'Default';
+        Function                  = polysNearCircle;
+        IsValueDisplayed          = true;
+        sup                       = coordinateSystem01.XZPlane;
+        pntInCircle               = expression01;
+        GraphLocation             = {2969.37856, 374.27232};
+    }
+}
+
